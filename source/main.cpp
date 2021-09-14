@@ -1,12 +1,22 @@
+#ifdef _WIN32
+#include <Windows.h>
+#else
+#include <unistd.h>
+#endif
+
 #include <iostream>
+#include <fstream>
+#include <iomanip>
 #include <vector>
 #include <random>
 #include <math.h>
 #include <cstdlib>
 #include <map>
-#include <matplotlibcpp.h>
-
-namespace plt = matplotlibcpp;
+#include "nlohmann/json.hpp"
+#include "nlohmann/json_fwd.hpp"
+//#include <matplotlibcpp.h>
+//
+//namespace plt = matplotlibcpp;
 
 std::random_device rd;
 std::mt19937 gen(rd());
@@ -182,39 +192,89 @@ int main(){
     p20 = maldicion(20000, 20);
     p25 = maldicion(20000, 25);
 
-    plt::plot(p2);
-    plt::title("2 Dimensiones");
-    plt::show();
-    plt::plot(p5);
-    plt::title("5 Dimensiones");
-    plt::show();
-    plt::plot(p10);
-    plt::title("10 Dimensiones");
-    plt::show();
-    plt::plot(p15);
-    plt::title("15 Dimensiones");
-    plt::show();
-    plt::plot(p20);
-    plt::title("20 Dimensiones");
-    plt::show();
-    plt::plot(p25);
-    plt::title("25 Dimensiones");
-    plt::show();
+    nlohmann::json j;
 
-    plt::plot(p2);
-    plt::plot(p5);
-    plt::plot(p10);
-    plt::plot(p15);
-    plt::plot(p20);
-    plt::plot(p25);
+    j["2 Dimensiones"] = p2;
+    j["5 Dimensiones"] = p5;
+    j["10 Dimensiones"] = p10;
+    j["15 Dimensiones"] = p15;
+    j["20 Dimensiones"] = p20;
+    j["25 Dimensiones"] = p25;
+
+    std::cout << "2 Dimensiones: ";
+    for (auto i : p2) {
+        std::cout << i << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "5 Dimensiones: ";
+    for (auto i : p5) {
+        std::cout << i << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "10 Dimensiones: ";
+    for (auto i : p10) {
+        std::cout << i << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "15 Dimensiones: ";
+    for (auto i : p15) {
+        std::cout << i << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "20 Dimensiones: ";
+    for (auto i : p20) {
+        std::cout << i << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "25 Dimensiones: ";
+    for (auto i : p25) {
+        std::cout << i << " ";
+    }
+    std::cout << std::endl;
+
+    std::ofstream o("../source/vector.json");
+    o << std::setw(4) << j << std::endl;
     
-    plt::named_plot("2 Dim", p2);
-    plt::named_plot("5 Dim", p5);
-    plt::named_plot("10 Dim", p10);
-    plt::named_plot("15 Dim", p15);
-    plt::named_plot("20 Dim", p20);
-    plt::named_plot("25 Dim", p25);
-    
-    plt::legend();
-    plt::show();  
+    system("python ../source/graficas.py");
+//    plt::plot(p2);
+//    plt::title("2 Dimensiones");
+//    plt::show();
+//    plt::plot(p5);
+//    plt::title("5 Dimensiones");
+//    plt::show();
+//    plt::plot(p10);
+//    plt::title("10 Dimensiones");
+//    plt::show();
+//    plt::plot(p15);
+//    plt::title("15 Dimensiones");
+//    plt::show();
+//    plt::plot(p20);
+//    plt::title("20 Dimensiones");
+//    plt::show();
+//    plt::plot(p25);
+//    plt::title("25 Dimensiones");
+//    plt::show();
+//    plt::save("1.png");
+//    //plt::plot(p2);
+//    //plt::plot(p5);
+//    //plt::plot(p10);
+//    //plt::plot(p15);
+//    //plt::plot(p20);
+//    //plt::plot(p25);
+//    
+///*    plt::named_plot("2 Dim", p2);
+//    plt::named_plot("5 Dim", p5);
+//    plt::named_plot("10 Dim", p10);
+//    plt::named_plot("15 Dim", p15);
+//    plt::named_plot("20 Dim", p20);
+//    plt::named_plot("25 Dim", p25);
+//    
+//    plt::legend();
+//    plt::show(); */ 
 }
+
